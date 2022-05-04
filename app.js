@@ -28,7 +28,7 @@ app.get('/login', (_req, res) => {
     const authorizationURL = workos.sso.getAuthorizationURL({
       connection: 'conn_01G287ZATJG4AX65S19FKFWQ90',
       clientID: clientID,
-      redirectURI: 'http://localhost:3000/callback',
+      redirectURI: 'https://node-ejs-okta-sso-workos.herokuapp.com/callback',
     })
     res.redirect(authorizationURL)
   } catch (error) {
