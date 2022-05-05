@@ -1,26 +1,24 @@
 const express = require('express')
 require('dotenv').config()
+
 const WorkOS = require('@workos-inc/node').default
+const workos = new WorkOS(process.env.WORKOS_API_KEY)
+const clientID = process.env.WORKOS_CLIENT_ID
+
 const app = express()
 const PORT = process.env.PORT || 3000
 
-const workos = new WorkOS(process.env.WORKOS_API_KEY)
-const clientID = process.env.WORKOS_CLIENT_ID
+let user = {}
 
 app.use(express.static('public'))
 app.use('/css', express.static(__dirname + 'public/css'))
 app.use('/js', express.static(__dirname + 'public/js'))
 app.use('/img', express.static(__dirname + 'public/img'))
-
 app.set('views', './views')
 app.set('view engine', 'ejs')
 
 app.get('/', (req, res) => {
-  res.render('index', { text: 'Please log in' })
-})
-
-app.get('/account', (req, res) => {
-  res.render('account', { text: 'SUCCESS' })
+  res.render('index')
 })
 
 app.get('/login', (_req, res) => {
@@ -42,9 +40,15 @@ app.get('/callback', async (req, res) => {
     code,
     clientID: clientID,
   })
-  // display profile info
-  console.log(profile)
+
+  user = profile
   res.redirect('/account')
+})
+
+app.get('/account', (req, res) => {
+  res.render('account', {
+    profileInfo: JSON.stringify(user, null, 8),
+  })
 })
 
 app.listen(PORT, () => console.info(`listening on port ${PORT}`))
