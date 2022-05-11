@@ -31,7 +31,7 @@ app.get('/login', (_req, res) => {
       connection: 'conn_01G2TM1BYXCPFB5Y12WN7FK2DY',
       clientID: clientID,
       // 5. Endpoint that handles callback from WorkOS when user authenticates, optional, if not provided it will use default from WorkOS dashboard
-      redirectURI: 'http://localhost:3000/callback',
+      redirectURI: 'https://node-workos-okta-sso.herokuapp.com/callback',
     })
     // 6. Redirect user to uthorization URL
     res.redirect(authorizationURL)
